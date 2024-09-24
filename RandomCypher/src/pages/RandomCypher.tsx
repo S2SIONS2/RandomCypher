@@ -81,8 +81,8 @@ const RandomCypher = () => {
         });
     };
 
-    // 랜덤 캐릭터 값 생성
-    useEffect(() => {
+    // 리스트 새로 뽑기
+    const rendering = () => {
         if (list.length > 0) {
             const newRandomValues: characterInfo[] = [];
             while (newRandomValues.length < Number(count)) {
@@ -96,6 +96,11 @@ const RandomCypher = () => {
             }
             setRandomValues(newRandomValues);
         }
+    }
+
+    // 랜덤 캐릭터 값 생성
+    useEffect(() => {
+        rendering()
     }, [count, list]);
 
     // API 호출
@@ -109,10 +114,7 @@ const RandomCypher = () => {
         toast.success('복사가 완료되었습니다!');
     };
 
-    // 리스트 새로 뽑기
-    const rendering = () => {
-
-    }
+    
 
     if (isLoading) {
         return <div>로딩 중...</div>;
