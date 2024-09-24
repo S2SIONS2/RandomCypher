@@ -19,16 +19,19 @@ const RandomCypher = () => {
     const getApi = async () => {
         try {
             const apiKey = import.meta.env.VITE_CHARACTERS_API_ID;
-            const response = await axios.get('/characters' + apiKey, {
+            const response = await axios.get(`/characters?apikey=${apiKey}`, {
                 headers: {
                     'Cache-Control': 'no-cache'
                 }
             });
+            console.log('API Response:', response); // 응답 데이터 확인
+            // console.log(apiKey)
             if (response.status === 200) {
                 const characterList = response.data.rows.map((item: characterInfo) => ({
                     characterId: item.characterId,
                     characterName: item.characterName
                 }));
+                console.log('Character List:', characterList); // 리스트 데이터 확인
                 setList(characterList);
             }
             setIsLoading(false);
@@ -98,6 +101,13 @@ const RandomCypher = () => {
         }
     }
 
+    
+    // 복사하기 버튼 클릭 핸들러
+    const handleCopy = () => {
+        navigator.clipboard.writeText(randomValues.map(item => item.characterName).join(', '));
+        toast.success('복사가 완료되었습니다!');
+    };
+    
     // 랜덤 캐릭터 값 생성
     useEffect(() => {
         rendering()
@@ -106,14 +116,9 @@ const RandomCypher = () => {
     // API 호출
     useEffect(() => {
         getApi();
+        console.log(list)
+        console.log(randomValues)
     }, []);
-
-    // 복사하기 버튼 클릭 핸들러
-    const handleCopy = () => {
-        navigator.clipboard.writeText(randomValues.map(item => item.characterName).join(', '));
-        toast.success('복사가 완료되었습니다!');
-    };
-
     
 
     if (isLoading) {

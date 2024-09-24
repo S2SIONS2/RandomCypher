@@ -9,7 +9,7 @@ export default defineConfig({
       '/characters': {
         target: 'https://api.neople.co.kr',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/characters/, '/cy/characters?apikey=') 
+        rewrite: (path) => path.replace(/^\/characters/, '/cy/characters')
       }
     }
   }
