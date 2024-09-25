@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const RandomCypher = () => {
     // 로딩 상태
     const [isLoading, setIsLoading] = useState(true);
@@ -18,14 +19,25 @@ const RandomCypher = () => {
     // 캐릭터 API 호출
     const getApi = async () => {
         try {
+            const isLocal = window.location.hostname === 'localhost';
+            const Proxy = isLocal ? '' : '/characters';
             const apiKey = import.meta.env.VITE_CHARACTERS_API_ID;
-            const response = await axios.get(`/characters?apikey=${apiKey}`, {
+    
+            // 로컬 환경에서는 직접 API URL을 사용하고, 배포 환경에서는 Proxy를 사용
+            const apiUrl = isLocal
+                ? `/characters?apikey=${apiKey}`
+                : `${Proxy}/characters?apikey=${apiKey}`;
+    
+            // API 요청
+            const response = await axios.get(apiUrl, {
                 headers: {
-                    'Cache-Control': 'no-cache'
+                    'Cache-Control': 'no-cache',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
+    
             console.log('API Response:', response); // 응답 데이터 확인
-            // console.log(apiKey)
             if (response.status === 200) {
                 const characterList = response.data.rows.map((item: characterInfo) => ({
                     characterId: item.characterId,
@@ -39,7 +51,7 @@ const RandomCypher = () => {
             console.error(error);
             setIsLoading(false);
         }
-    };
+    };   
 
     // 인원 수와 랜덤 캐릭터 배열 상태
     const [count, setCount] = useState<string>(localStorage.getItem('인원') || '1');
@@ -101,7 +113,6 @@ const RandomCypher = () => {
         }
     }
 
-    
     // 복사하기 버튼 클릭 핸들러
     const handleCopy = () => {
         navigator.clipboard.writeText(randomValues.map(item => item.characterName).join(', '));

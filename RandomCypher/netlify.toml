@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/characters/*"
+  to = "https://api.neople.co.kr/cy/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/characters/*"
+  [headers.values]
+    Accept = "application/json"
+    Content-Type = "application/json; charset=utf-8"
