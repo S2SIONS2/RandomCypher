@@ -26,7 +26,7 @@ const RandomCypher = () => {
             // 로컬 환경에서는 직접 API URL을 사용하고, 배포 환경에서는 Proxy를 사용
             const apiUrl = isLocal
                 ? `/characters?apikey=${apiKey}`
-                : `${Proxy}/characters?apikey=${apiKey}`;
+                : `${Proxy}?apikey=${apiKey}`;
     
             // API 요청
             const response = await axios.get(apiUrl, {
