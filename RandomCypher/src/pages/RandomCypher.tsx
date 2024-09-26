@@ -36,14 +36,11 @@ const RandomCypher = () => {
                     'Content-Type': 'application/json'
                 }
             });
-    
-            console.log('API Response:', response); // 응답 데이터 확인
             if (response.status === 200) {
                 const characterList = response.data.rows.map((item: characterInfo) => ({
                     characterId: item.characterId,
                     characterName: item.characterName
                 }));
-                console.log('Character List:', characterList); // 리스트 데이터 확인
                 setList(characterList);
             }
             setIsLoading(false);
@@ -127,8 +124,6 @@ const RandomCypher = () => {
     // API 호출
     useEffect(() => {
         getApi();
-        console.log(list)
-        console.log(randomValues)
     }, []);
     
 
