@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './RandomCypher.scss';
 import axios from 'axios';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -112,7 +113,8 @@ const RandomCypher = () => {
 
     // 복사하기 버튼 클릭 핸들러
     const handleCopy = () => {
-        navigator.clipboard.writeText(randomValues.map(item => item.characterName).join(', '));
+        // http에선 clipboard 사용 불가능으로 주석 처리
+        // navigator.clipboard.writeText(randomValues.map(item => item.characterName).join(', '));       
         toast.success('복사가 완료되었습니다!');
     };
     
@@ -154,13 +156,15 @@ const RandomCypher = () => {
                     >
                         뽑기
                     </button>
-                    <button
-                        type='button'
-                        className='w-auto p-2'
-                        onClick={handleCopy}
-                    >
-                        캐릭터 복사하기
-                    </button>
+                    <CopyToClipboard text={randomValues.map(item => item.characterName).join(', ')}>
+                        <button
+                            type='button'
+                            className='w-auto p-2'
+                            onClick={handleCopy}
+                        >
+                            캐릭터 복사하기
+                        </button>
+                    </CopyToClipboard>
                 </div>
             </section>
             <section  className='m-0 p-0 g-0'>
